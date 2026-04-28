@@ -1,9 +1,12 @@
 from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    GITHUB_CLIENT_ID: str
 
+class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
-settings = Settings() # type: ignore
+    GITHUB_CLIENT_ID: str
+    BACKENC_URL: str
+
+
+settings = Settings()  # type: ignore
