@@ -1,17 +1,22 @@
 import logging
 
 import rich_click as click
-from rich.logging import RichHandler
 
 from . import auth
+from .settings import settings
 from . import profiles as profile_commands
 
-logging.basicConfig(
-    level="NOTSET",
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[RichHandler(rich_tracebacks=True)],
-)
+if settings.DEVELOPMENT:
+    from rich.logging import RichHandler
+
+    logging.basicConfig(
+        level="DEBUG",
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler(rich_tracebacks=True)],
+    )
+else:
+    logging.disable(logging.CRITICAL)
 
 
 @click.group()

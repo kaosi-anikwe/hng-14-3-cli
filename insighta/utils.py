@@ -17,6 +17,9 @@ class OAuthCallbackServer(HTTPServer):
 class OAuthCallbackHandler(BaseHTTPRequestHandler):
     CALLBACK_PATH = "/auth/github/callback"
 
+    def log_message(self, format, *args):
+        pass  # Suppress default request logging
+
     def do_GET(self):
         parsed = parse.urlparse(self.path)
 

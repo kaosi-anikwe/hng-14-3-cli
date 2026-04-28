@@ -32,8 +32,7 @@ def refresh_access() -> bool:
         creds.refresh_token = SecretStr(str(response_data.get("refresh_token")))
         creds.save()
         return True
-    except Exception as e:
-        click.echo(f"Failed to refresh access: {e}")
+    except:
         return False
 
 

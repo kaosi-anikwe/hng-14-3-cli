@@ -6,6 +6,7 @@ class Settings(BaseSettings):
 
     GITHUB_CLIENT_ID: str = "Iv23lizZgswzy4egTJVu"
     BACKEND_URL: str = "https://hng-14-three.vercel.app"
+    DEVELOPMENT: bool = False
 
 
 settings = Settings()  # type: ignore
