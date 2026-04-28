@@ -399,7 +399,9 @@ def create(name: str):
         console = Console()
         with console.status("Creating profile..."):
             response = authed_request(
-                "POST", f"{settings.INSIGHTA_BACKEND_URL}/api/profiles", json={"name": name}
+                "POST",
+                f"{settings.INSIGHTA_BACKEND_URL}/api/profiles",
+                json={"name": name},
             )
             raise_for_status(response)
             result = ProfileResponse.from_dict(response.json())
