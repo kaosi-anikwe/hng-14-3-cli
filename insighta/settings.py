@@ -2,11 +2,10 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    class Config:
-        env_file = ".env"
+    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
-    GITHUB_CLIENT_ID: str
-    BACKEND_URL: str
+    GITHUB_CLIENT_ID: str = "Iv23lizZgswzy4egTJVu"
+    BACKEND_URL: str = "https://hng-14-three.vercel.app"
 
 
 settings = Settings()  # type: ignore
