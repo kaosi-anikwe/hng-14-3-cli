@@ -1,7 +1,6 @@
-import click
+import rich_click as click
 
 from . import auth
-from .conflig import Credentials
 from . import profiles as profile_commands
 
 

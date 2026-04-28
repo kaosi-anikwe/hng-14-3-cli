@@ -1,5 +1,5 @@
-import click
 import requests
+import rich_click as click
 
 from .auth import refresh_access
 from .conflig import Credentials

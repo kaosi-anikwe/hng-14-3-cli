@@ -1,12 +1,12 @@
-import click
 import base64
 import socket
 import hashlib
 import secrets
 import webbrowser
 from urllib import parse
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
+import rich_click as click
 
 
 class OAuthCallbackServer(HTTPServer):

@@ -1,5 +1,5 @@
-import click
 from pathlib import Path
+import rich_click as click
 from dataclasses import dataclass
 from typing import Optional, List
 

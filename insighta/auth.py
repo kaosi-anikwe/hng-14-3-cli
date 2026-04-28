@@ -1,5 +1,5 @@
-import click
 import secrets
+import rich_click as click
 
 import requests
 from requests import Request
