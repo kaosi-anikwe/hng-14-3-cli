@@ -1,7 +1,17 @@
+import logging
+
 import rich_click as click
+from rich.logging import RichHandler
 
 from . import auth
 from . import profiles as profile_commands
+
+logging.basicConfig(
+    level="NOTSET",
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[RichHandler(rich_tracebacks=True)],
+)
 
 
 @click.group()

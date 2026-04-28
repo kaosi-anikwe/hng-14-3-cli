@@ -2,9 +2,13 @@ import secrets
 import rich_click as click
 
 import requests
+from rich.text import Text
 from requests import Request
-from .settings import settings
+from rich.panel import Panel
 from pydantic import SecretStr
+from rich.console import Console
+
+from .settings import settings
 from .conflig import Credentials
 from .utils import generate_pkce, capture_code_and_state, find_free_port
 
@@ -35,10 +39,11 @@ def refresh_access() -> bool:
 
 @click.command()
 def login():
-    """Authenticate with GitHub OAuth"""
+    """Authenticate with GitHub OAuth."""
     try:
         from .client import raise_for_status
 
+        console = Console()
         state = secrets.token_urlsafe(32)
         code_verifier, code_challenge = generate_pkce()
 
@@ -58,31 +63,32 @@ def login():
         req = Request("GET", url=url, params=params)
         prepared = req.prepare()
         auth_url = str(prepared.url)
-        click.echo(auth_url)
         code, captured_state = capture_code_and_state(temp_server, auth_url)
 
         if state == captured_state:
-            # Proceed with login
-            click.echo("Loggin in...")
-            login_url = f"{settings.BACKEND_URL}/auth/cli/callback"
-            login_payload = {"code": code, "code_verifier": code_verifier}
-            login_response = requests.post(url=login_url, json=login_payload)
-            raise_for_status(login_response)
-            response_data: dict[str, str] = login_response.json()
+            with console.status("Logging in..."):
+                login_url = f"{settings.BACKEND_URL}/auth/cli/callback"
+                login_payload = {"code": code, "code_verifier": code_verifier}
+                login_response = requests.post(url=login_url, json=login_payload)
+                raise_for_status(login_response)
+                response_data: dict[str, str] = login_response.json()
 
-            access_token = response_data.get("access_token")
-            refresh_token = response_data.get("refresh_token")
-            username = response_data.get("username")
+                access_token = response_data.get("access_token")
+                refresh_token = response_data.get("refresh_token")
+                username = response_data.get("username")
 
-            creds = Credentials(
-                username=str(username),
-                access_token=SecretStr(str(access_token)),
-                refresh_token=SecretStr(str(refresh_token)),
+                creds = Credentials(
+                    username=str(username),
+                    access_token=SecretStr(str(access_token)),
+                    refresh_token=SecretStr(str(refresh_token)),
+                )
+                creds.save()
+
+            console.print(
+                f"[bold green]✓[/bold green] Logged in as [bold cyan]@{creds.username}[/bold cyan]"
             )
-            creds.save()
-            click.echo(f"Logged in as {creds.username}")
         else:
-            raise click.ClickException(f"Invalid CSRF, aborting...")
+            raise click.ClickException("Invalid CSRF, aborting...")
     except click.ClickException:
         raise
     except KeyboardInterrupt:
@@ -95,36 +101,42 @@ def login():
 
 @click.command()
 def logout():
-    from .client import raise_for_status
-
     """Logout and delete credentials."""
+    from .client import raise_for_status
     from .conflig import CREDENTIALS_PATH
 
+    console = Console()
     creds = Credentials.load()
     if creds is None:
         raise click.ClickException("Not logged in.")
 
     # Attempt to invalidate tokens server-side; proceed with local cleanup regardless
     try:
-        response = requests.post(
-            url=f"{settings.BACKEND_URL}/auth/logout",
-            cookies={"access_token_cookie": creds.access_token.get_secret_value()},
-        )
-        raise_for_status(response)
+        with console.status("Logging out..."):
+            response = requests.post(
+                url=f"{settings.BACKEND_URL}/auth/logout",
+                cookies={"access_token_cookie": creds.access_token.get_secret_value()},
+            )
+            raise_for_status(response)
     except Exception as e:
-        click.echo(
-            f"Warning: server-side logout failed ({e}). Clearing local credentials anyway."
+        console.print(
+            f"[yellow]Warning:[/yellow] server-side logout failed ({e}). Clearing local credentials anyway."
         )
 
     CREDENTIALS_PATH.unlink(missing_ok=True)
-    click.echo("Logged out.")
+    console.print("[bold green]✓[/bold green] Logged out.")
 
 
 @click.command()
 def whoami():
     """Shows the current authenticated user."""
+    console = Console()
     creds = Credentials.load()
     if creds is None:
         raise click.ClickException("Not logged in. Run `insighta login` first.")
 
-    click.echo(f"Currently logged in as @{creds.username}")
+    summary = Text()
+    summary.append("  Username  ", style="dim")
+    summary.append(f"@{creds.username}", style="bold cyan")
+
+    console.print(Panel(summary, title="[bold]Current User[/bold]", expand=False))
