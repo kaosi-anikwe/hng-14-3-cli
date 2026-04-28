@@ -1,10 +1,15 @@
 import click
 
+from .conflig import Credentials
+
 
 @click.command()
-def list():
+@click.pass_context
+def list(ctx: click.Context):
     """Query profiles with optional filters"""
-    pass
+    creds: Credentials | None = ctx.obj["creds"]
+    if not creds:
+        raise click.ClickException("Not logged in. Run `insighta login` first.")
 
 
 @click.command()

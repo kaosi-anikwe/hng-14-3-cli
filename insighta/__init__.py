@@ -1,6 +1,7 @@
 import click
 
 from . import auth
+from .conflig import Credentials
 from . import profiles as profile_commands
 
 
@@ -9,7 +10,8 @@ from . import profiles as profile_commands
 @click.pass_context
 def cli(ctx: click.Context):
     """Insighta CLI."""
-    print("Hello world!")
+    ctx.ensure_object(dict)
+    ctx.obj["creds"] = Credentials.load()
 
 
 cli.add_command(auth.login)
