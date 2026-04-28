@@ -6,7 +6,7 @@ from . import auth
 from .settings import settings
 from . import profiles as profile_commands
 
-if settings.DEVELOPMENT:
+if settings.INSIGHTA_DEVELOPMENT:
     from rich.logging import RichHandler
 
     logging.basicConfig(

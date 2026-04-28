@@ -196,7 +196,7 @@ def list(
         params = {k: v for k, v in params.items() if v is not None}
 
         console = Console()
-        next_url: Optional[str] = f"{settings.BACKEND_URL}/api/profiles"
+        next_url: Optional[str] = f"{settings.INSIGHTA_BACKEND_URL}/api/profiles"
         next_params: Optional[dict] = params
 
         while next_url:
@@ -245,10 +245,10 @@ def list(
             console.print()  # newline after keypress
 
             if key == "n" and has_next:
-                next_url = f"{settings.BACKEND_URL}{result.links['next']}"
+                next_url = f"{settings.INSIGHTA_BACKEND_URL}{result.links['next']}"
                 next_params = None  # params are already encoded in the link URL
             elif key == "p" and has_prev:
-                next_url = f"{settings.BACKEND_URL}{result.links['prev']}"
+                next_url = f"{settings.INSIGHTA_BACKEND_URL}{result.links['prev']}"
                 next_params = None
             else:
                 break
@@ -272,7 +272,7 @@ def get(id: str):
         console = Console()
         with console.status("Getting profile..."):
             response = authed_request(
-                "GET", f"{settings.BACKEND_URL}/api/profiles/{id}"
+                "GET", f"{settings.INSIGHTA_BACKEND_URL}/api/profiles/{id}"
             )
             raise_for_status(response)
             result = ProfileResponse.from_dict(response.json())
@@ -337,7 +337,7 @@ def search(query: str, sort_by: str, order: str, page: int, limit: int):
         }
 
         console = Console()
-        next_url: Optional[str] = f"{settings.BACKEND_URL}/api/profiles/search"
+        next_url: Optional[str] = f"{settings.INSIGHTA_BACKEND_URL}/api/profiles/search"
         next_params: Optional[dict] = params
 
         while next_url:
@@ -377,10 +377,10 @@ def search(query: str, sort_by: str, order: str, page: int, limit: int):
             console.print()  # newline after keypress
 
             if key == "n" and has_next:
-                next_url = f"{settings.BACKEND_URL}{result.links['next']}"
+                next_url = f"{settings.INSIGHTA_BACKEND_URL}{result.links['next']}"
                 next_params = None  # params are already encoded in the link URL
             elif key == "p" and has_prev:
-                next_url = f"{settings.BACKEND_URL}{result.links['prev']}"
+                next_url = f"{settings.INSIGHTA_BACKEND_URL}{result.links['prev']}"
                 next_params = None
             else:
                 break
@@ -399,7 +399,7 @@ def create(name: str):
         console = Console()
         with console.status("Creating profile..."):
             response = authed_request(
-                "POST", f"{settings.BACKEND_URL}/api/profiles", json={"name": name}
+                "POST", f"{settings.INSIGHTA_BACKEND_URL}/api/profiles", json={"name": name}
             )
             raise_for_status(response)
             result = ProfileResponse.from_dict(response.json())
@@ -490,7 +490,7 @@ def export(
         with console.status("Export profiles..."):
             response = authed_request(
                 "GET",
-                f"{settings.BACKEND_URL}/api/profiles/export",
+                f"{settings.INSIGHTA_BACKEND_URL}/api/profiles/export",
                 params=params,
             )
             raise_for_status(response)

@@ -21,7 +21,7 @@ def refresh_access() -> bool:
         return False
     try:
         refresh_token = creds.refresh_token.get_secret_value()
-        refresh_url = f"{settings.BACKEND_URL}/auth/refresh"
+        refresh_url = f"{settings.INSIGHTA_BACKEND_URL}/auth/refresh"
         refresh_response = requests.post(
             url=refresh_url, json={"refresh_token": refresh_token}
         )
@@ -52,7 +52,7 @@ def login():
 
         url = "https://github.com/login/oauth/authorize"
         params = {
-            "client_id": settings.GITHUB_CLIENT_ID,
+            "client_id": settings.INSIGHTA_GITHUB_CLIENT_ID,
             "redirect_uri": f"http://{temp_server_host}:{temp_server_port}/auth/github/callback",
             "scope": "user:email",
             "state": state,
@@ -66,7 +66,7 @@ def login():
 
         if state == captured_state:
             with console.status("Logging in..."):
-                login_url = f"{settings.BACKEND_URL}/auth/cli/callback"
+                login_url = f"{settings.INSIGHTA_BACKEND_URL}/auth/cli/callback"
                 login_payload = {"code": code, "code_verifier": code_verifier}
                 login_response = requests.post(url=login_url, json=login_payload)
                 raise_for_status(login_response)
@@ -113,7 +113,7 @@ def logout():
     try:
         with console.status("Logging out..."):
             response = requests.post(
-                url=f"{settings.BACKEND_URL}/auth/logout",
+                url=f"{settings.INSIGHTA_BACKEND_URL}/auth/logout",
                 cookies={"access_token_cookie": creds.access_token.get_secret_value()},
             )
             raise_for_status(response)
