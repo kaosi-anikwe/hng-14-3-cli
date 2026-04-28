@@ -7,11 +7,9 @@ from . import profiles as profile_commands
 
 @click.group()
 @click.version_option()
-@click.pass_context
-def cli(ctx: click.Context):
+def cli():
     """Insighta CLI."""
-    ctx.ensure_object(dict)
-    ctx.obj["creds"] = Credentials.load()
+    pass
 
 
 cli.add_command(auth.login)

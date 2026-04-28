@@ -6,7 +6,7 @@ class Settings(BaseSettings):
         env_file = ".env"
 
     GITHUB_CLIENT_ID: str
-    BACKENC_URL: str
+    BACKEND_URL: str
 
 
 settings = Settings()  # type: ignore
