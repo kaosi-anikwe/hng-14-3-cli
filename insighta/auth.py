@@ -1,16 +1,16 @@
 import secrets
-import rich_click as click
-
-import requests
-from requests import Request
-from rich.panel import Panel
-from pydantic import SecretStr
-from rich.console import Console
 from datetime import datetime, timezone
 
-from .settings import settings
+import requests
+import rich_click as click
+from pydantic import SecretStr
+from requests import Request
+from rich.console import Console
+from rich.panel import Panel
+
 from .config import Credentials
-from .utils import generate_pkce, capture_code_and_state, find_free_port
+from .settings import settings
+from .utils import capture_code_and_state, find_free_port, generate_pkce
 
 
 def refresh_access() -> bool:
@@ -32,7 +32,7 @@ def refresh_access() -> bool:
         creds.refresh_token = SecretStr(str(response_data.get("refresh_token")))
         creds.save()
         return True
-    except:
+    except Exception:
         return False
 
 
@@ -129,8 +129,9 @@ def logout():
 @click.command()
 def whoami():
     """Shows the current authenticated user."""
-    from .client import authed_request, raise_for_status
     from rich.table import Table
+
+    from .client import authed_request, raise_for_status
 
     console = Console()
 
@@ -141,7 +142,6 @@ def whoami():
         raise_for_status(response)
         user_data: dict[str, str] = response.json().get("user")
 
-        id = user_data.get("id")
         github_id = user_data.get("github_id")
         username = user_data.get("username")
         email = user_data.get("email")
