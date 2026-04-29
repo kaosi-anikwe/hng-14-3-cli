@@ -5,8 +5,8 @@ from typing import Optional, List
 
 import rich_click as click
 from rich.text import Text
-from rich.panel import Panel
 from rich.table import Table
+from rich.panel import Panel
 from rich.console import Console
 
 from .settings import settings
