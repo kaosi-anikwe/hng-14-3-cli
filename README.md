@@ -1,6 +1,6 @@
 # Insighta Labs+ CLI
 
-[![CI](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml/badge.svg?branch=stage-3-cli)](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml)
+[![CI](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml)
 
 A command-line interface for the Insighta platform — query, search, create, and export user profiles, authenticated via GitHub OAuth.
 
