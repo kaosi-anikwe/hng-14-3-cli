@@ -26,7 +26,7 @@ def authed_request(method: str, url: str, **kwargs) -> requests.Response:
     if creds is None:
         raise click.ClickException("Not logged in. Run `insighta login` first.")
 
-    cookies = {"access_token_cookie": creds.access_token.get_secret_value()}
+    cookies = {"access_token": creds.access_token.get_secret_value()}
     headers = {"X-API-Version": "1"}
     response = requests.request(method, url, cookies=cookies, headers=headers, **kwargs)
 
@@ -35,7 +35,7 @@ def authed_request(method: str, url: str, **kwargs) -> requests.Response:
             creds = Credentials.load()
             if creds is None:
                 raise click.ClickException("Session expired. Please log in again.")
-            cookies = {"access_token_cookie": creds.access_token.get_secret_value()}
+            cookies = {"access_token": creds.access_token.get_secret_value()}
             response = requests.request(
                 method, url, cookies=cookies, headers=headers, **kwargs
             )
