@@ -29,7 +29,7 @@ A command-line interface for the Insighta platform — query, search, create, an
 
 ## Installation
 
-Install directly from the `stage-3-cli` branch — no cloning required:
+Install directly from the `main` branch — no cloning required:
 
 ```bash
 # 1. Ensure pipx is available
@@ -38,7 +38,7 @@ python -m pipx ensurepath
 # Restart your shell after this step
 
 # 2. Install insighta
-pipx install "git+https://github.com/kaosi-anikwe/hng-14-3-cli.git@stage-3-cli#subdirectory=."
+pipx install "git+https://github.com/kaosi-anikwe/hng-14-3-cli.git@main#subdirectory=."
 ```
 
 The `insighta` command is then available globally in any shell:
