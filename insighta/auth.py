@@ -9,7 +9,7 @@ from rich.console import Console
 from datetime import datetime, timezone
 
 from .settings import settings
-from .conflig import Credentials
+from .config import Credentials
 from .utils import generate_pkce, capture_code_and_state, find_free_port
 
 
@@ -102,7 +102,7 @@ def login():
 def logout():
     """Logout and delete credentials."""
     from .client import raise_for_status
-    from .conflig import CREDENTIALS_PATH
+    from .config import CREDENTIALS_PATH
 
     console = Console()
     creds = Credentials.load()
