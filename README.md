@@ -1,5 +1,7 @@
 # Insighta Labs+ CLI
 
+[![CI](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml/badge.svg?branch=stage-3-cli)](https://github.com/kaosi-anikwe/hng-14-3-cli/actions/workflows/ci.yml)
+
 A command-line interface for the Insighta platform — query, search, create, and export user profiles, authenticated via GitHub OAuth.
 
 ---
@@ -8,6 +10,7 @@ A command-line interface for the Insighta platform — query, search, create, an
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [CI/CD](#cicd)
 - [Configuration](#configuration)
 - [System Architecture](#system-architecture)
 - [Authentication Flow](#authentication-flow)
@@ -35,7 +38,7 @@ python -m pipx ensurepath
 # Restart your shell after this step
 
 # 2. Install insighta
-pipx install "git+https://github.com/kaosi-anikwe/hng-14.git@stage-3-cli#subdirectory=."
+pipx install "git+https://github.com/kaosi-anikwe/hng-14-3-cli.git@stage-3-cli#subdirectory=."
 ```
 
 The `insighta` command is then available globally in any shell:
@@ -358,5 +361,32 @@ INSIGHTA_DEVELOPMENT=true
 Format code with Black:
 
 ```bash
-poetry run black insighta/
+poetry run black insighta/ tests/
 ```
+
+Lint with Ruff:
+
+```bash
+poetry run ruff check insighta/ tests/
+```
+
+Run tests:
+
+```bash
+poetry run pytest tests/ -v
+```
+
+---
+
+## CI/CD
+
+GitHub Actions runs automatically on every pull request targeting `main`.
+
+| Job       | Tool            | What it checks                        |
+| --------- | --------------- | ------------------------------------- |
+| **Lint**  | `black --check` | Code is correctly formatted           |
+| **Lint**  | `ruff check`    | No style or import errors             |
+| **Test**  | `pytest`        | All unit tests pass                   |
+| **Build** | `poetry build`  | Package can be built as a wheel/sdist |
+
+Workflow definition: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
