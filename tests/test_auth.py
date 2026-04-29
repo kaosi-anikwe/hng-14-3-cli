@@ -1,4 +1,5 @@
 """Tests for auth helpers."""
+
 from datetime import datetime, timedelta, timezone
 
 from insighta.auth import _format_last_login

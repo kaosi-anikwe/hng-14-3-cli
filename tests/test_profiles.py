@@ -1,6 +1,6 @@
 """Tests for profiles helpers."""
-from insighta.profiles import ProfileData, profile_row
 
+from insighta.profiles import ProfileData, profile_row
 
 SAMPLE = {
     "id": "abc123",
