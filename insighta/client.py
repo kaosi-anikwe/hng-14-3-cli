@@ -2,7 +2,7 @@ import requests
 import rich_click as click
 
 from .auth import refresh_access
-from .conflig import Credentials
+from .config import Credentials
 
 
 def raise_for_status(response: requests.Response) -> None:

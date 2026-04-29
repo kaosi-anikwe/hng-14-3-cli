@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 _USER_ENV = Path.home() / ".insighta" / ".env"

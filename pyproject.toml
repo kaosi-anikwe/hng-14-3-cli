@@ -26,5 +26,17 @@ insighta = "insighta:cli"
 
 [dependency-groups]
 dev = [
-    "black (>=26.3.1,<27.0.0)"
+    "black (>=26.3.1,<27.0.0)",
+    "ruff (>=0.11.0,<1.0.0)",
+    "pytest (>=8.0.0,<9.0.0)",
 ]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

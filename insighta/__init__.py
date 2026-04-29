@@ -3,8 +3,8 @@ import logging
 import rich_click as click
 
 from . import auth
-from .settings import settings
 from . import profiles as profile_commands
+from .settings import settings
 
 if settings.INSIGHTA_DEVELOPMENT:
     from rich.logging import RichHandler

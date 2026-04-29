@@ -1,10 +1,10 @@
 import base64
-import socket
 import hashlib
 import secrets
+import socket
 import webbrowser
-from urllib import parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib import parse
 
 import rich_click as click
 
@@ -55,7 +55,7 @@ def capture_code_and_state(
     httpd = OAuthCallbackServer(server_address, OAuthCallbackHandler)
 
     # Open the user's browser to the OAuth provider
-    click.echo(f"Opening browser for authorization...")
+    click.echo("Opening browser for authorization...")
     webbrowser.open(auth_url)
 
     # Wait for redirect
